@@ -1,0 +1,32 @@
+{
+  "name": "i-fight-for-you-pooria-1404-11-07",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install-server": "npm install --prefix server",
+    "install-client": "npm install --prefix client",
+    "install": "npm run install-server && npm run install-client",
+    "server": "npm run watch --prefix server",
+    "client": "npm start --prefix client",
+    "build:client": "cd client && npm run build",
+    "build": "npm run build:client",
+    "watch": "npm run server & npm run client",
+    "start:server": "npm start --prefix server",
+    "start": "npm run start:server",
+    "test": "npm run test --prefix server && npm run test --prefix client",
+    "deploy": "npm run build && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mohammad-Pouria-Sadeghi/i-fight-for-you-pooria-1404-11-07.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Mohammad-Pouria-Sadeghi/i-fight-for-you-pooria-1404-11-07/issues"
+  },
+  "homepage": "https://github.com/Mohammad-Pouria-Sadeghi/i-fight-for-you-pooria-1404-11-07#readme"
+}

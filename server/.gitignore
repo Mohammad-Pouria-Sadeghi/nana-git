@@ -1,0 +1,39 @@
+# --- Node.js ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Environment files ---
+.env
+.env.local
+.env.*.local
+
+# --- Build outputs ---
+dist/
+build/
+out/
+
+# --- Logs ---
+logs/
+*.log
+*.log.*
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+
+# --- Project-specific folders you DON'T want in Git ---
+performance/
+/performance
+public/
+client/
+
+client\public\
+
+# --- Optional: ignore lock file if you want clean installs ---
+# package-lock.json
