@@ -1,6 +1,8 @@
 const http = require("http");
 const app = require("./app");
 
+require("dotenv").config();
+
 const { mongoConnect } = require("./services/mongo");
 const { loadPlanetsData } = require("./models/planets.model");
 const {
@@ -8,7 +10,7 @@ const {
   removeWrongCustomerField,
 } = require("./models/launches.model");
 
-const PORT = 9000;
+const PORT = process.env.PORT ||9000;
 
 async function startServer() {
   await mongoConnect(); // 1. Connect to DB
@@ -22,6 +24,5 @@ async function startServer() {
     console.log(`Server running on port ${PORT}`);
   });
 }
-
 
 startServer();

@@ -5,9 +5,33 @@ const {
   launchExists,
 } = require("../../models/launches.model");
 
+const { getPagination } = require("../../services/query");
+
 async function httpGetAllLaunches(req, res) {
-  return res.status(200).json(await getAllLaunches());
+  const { limit, skip } = getPagination(req.query);
+  console.log(limit, skip);
+  const launches = await getAllLaunches(limit, skip);
+  return res.status(200).json(launches);
 }
+
+// async function httpGetAllLaunches(req, res) {
+//   const { page, limit, skip } = getPagination(req.query);
+
+//   try {
+//     const launches = await getAllLaunches(skip, limit);
+//     const total = await launchesModel.countDocuments();
+
+//     return res.status(200).json({
+//       page,
+//       limit,
+//       total,
+//       totalPages: Math.ceil(total / limit),
+//       data: launches,
+//     });
+//   } catch (err) {
+//     return res.status(500).json({ error: "Failed to fetch launches" });
+//   }
+// }
 
 async function httpAddNewLaunch(req, res) {
   const launch = req.body;

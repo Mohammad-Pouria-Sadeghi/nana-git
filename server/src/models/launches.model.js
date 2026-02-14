@@ -54,7 +54,6 @@ async function removeWrongCustomerField() {
   console.log("Removed wrong customer field:", result.modifiedCount);
 }
 
-
 async function loadLaunchData() {
   console.log("Downloading launch data...");
 
@@ -88,8 +87,12 @@ async function launchExists(launchId) {
 /**
  * Get all launches (clean projection)
  */
-async function getAllLaunches() {
-  return launchesModel.find({}, { _id: 0, __v: 0 });
+async function getAllLaunches(limit, skip) {
+  return launchesModel
+    .find({}, { _id: 0, __v: 0 })
+    .sort({ flightNumber: 1 })
+    .skip(skip)
+    .limit(limit);
 }
 
 /**
@@ -161,6 +164,5 @@ module.exports = {
   launchExists,
   loadLaunchData,
   scheduleNewLaunch,
-  removeWrongCustomerField
-
+  removeWrongCustomerField,
 };
