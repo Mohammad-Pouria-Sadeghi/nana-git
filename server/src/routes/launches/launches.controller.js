@@ -13,14 +13,14 @@ async function httpAddNewLaunch(req, res) {
   const launch = req.body;
 
   // ۱. بررسی فیلدهای ضروری
-  if (
-    !launch.mission ||
-    !launch.rocket ||
-    !launch.launchDate ||
-    !launch.target
-  ) {
+  const requiredFields = ["mission", "rocket", "launchDate", "target"];
+
+  const missingFields = requiredFields.filter((field) => !launch[field]);
+
+  if (missingFields.length > 0) {
     return res.status(400).json({
-      error: "Missing required launch property",
+      error: "Missing required launch properties",
+      missing: missingFields,
     });
   }
 
@@ -41,18 +41,26 @@ async function httpAddNewLaunch(req, res) {
   return res.status(201).json(launch);
 }
 
-function httpAbortLaunch(req, res) {
+async function httpAbortLaunch(req, res) {
   const launchId = Number(req.params.id);
 
-  // laucnh exists
-  if (!launchExists(launchId)) {
-    return res.status(404).json({
-      error: "launch not found",
-    });
+  // validate id
+  if (isNaN(launchId)) {
+    return res.status(400).json({ error: "invalid launch id" });
   }
-  // abort laucnh
 
-  const aborted = abortLaunch(launchId);
+  // check existence
+  const existsLaunch = await launchExists(launchId);
+  if (!existsLaunch) {
+    return res.status(404).json({ error: "launch not found" });
+  }
+
+  // abort
+  const aborted = await abortLaunch(launchId);
+  if (!aborted) {
+    return res.status(400).json({ error: "launch not aborted" });
+  }
+
   return res.status(200).json(aborted);
 }
 

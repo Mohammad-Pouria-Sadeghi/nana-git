@@ -1,31 +1,34 @@
+// app.js
 const express = require("express");
 const path = require("path");
-const mongoose = require("mongoose");
-const { MONGO_URL } = process.env;
-
-const app = express();
 const cors = require("cors");
 const morgan = require("morgan");
-const planetsRouter = require("./routes/planets/planets.route");
-const launchesRouter = require("./routes/launches/launches.router");
+
+// Routers
+const apiRouter = require("./routes/api");
+
+const app = express();
+
+/* ---------------------- Global Middlewares ---------------------- */
 
 app.use(cors({ origin: "http://localhost:3000" }));
 app.use(morgan("short"));
 app.use(express.json());
-// await mongoose
-//   .connect(
-//     "mongodb+srv://pooria8099_db_user:wu4KjjQzADyMYNGQ@nasa-cluster.jmyvsru.mongodb.net/?appName=nasa-cluster",
-//   )
-//   .then((res) => console.log("MongoDB connected"))
-//   .catch((err) => console.log(err));
 
+// Serve static frontend files
 app.use(express.static(path.join(__dirname, "..", "public")));
 
-app.use("/planets", planetsRouter);
-app.use("/launches", launchesRouter);
+/* --------------------------- API Routes -------------------------- */
 
-app.use("/", (req, res) => {
+// Versioned API
+app.use("/v1", apiRouter);
+
+/* --------------------------- SPA Fallback ------------------------ */
+// If no API route matched, send index.html (for React frontend)
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "index.html"));
 });
+
+/* ---------------------------------------------------------------- */
 
 module.exports = app;
